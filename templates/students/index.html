@@ -1,0 +1,50 @@
+{% extends 'layouts/master.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% load static %}
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% endblock %}
+{% block content %}
+<div class="container">
+    
+    <a href="{% url 'student-create' %}" class="btn btn-primary btn-sm mt-3 mb-2">Add New student</a>
+    <h1 style="background-color:green;">{{ body_title }}</h1>
+    <hr>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th> Name</th>
+                <th>contact</th>
+                <th>Course</th>
+                <th>profile</th>
+                <th>Applied at</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for val in students %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{val.first_name}} {{val.middle_name}} {{val.last_name}}</td>
+               <td>{{val.contact}}</td>
+               <td>{{val.course.course_name}}</td>
+               <td><img src="{{ val.profile_img.url }}" alt="" width="30" height="50"></td>
+               <td>{{val.created_at}}</td>
+                <td><a href="{% url 'student-show' val.id %}" 
+                    class="btn btn-primary btn-sm mt-3 mb-2">Show</a></td>
+                <td><a href="{% url 'student-edit' val.id %}" 
+                    class="btn btn-primary btn-sm mt-3 mb-2">Edit</a></td>
+                <td><a href="{% url 'student-delete' val.id %}" 
+                    class="btn btn-primary btn-sm mt-3 mb-2">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
